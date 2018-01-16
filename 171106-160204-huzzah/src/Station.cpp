@@ -23,8 +23,8 @@ void setup(void) {
   Serial.println();
 
   pinMode(LEDpin,OUTPUT); // sets pin 13 to be an output pin
+  digitalWrite(LEDpin,HIGH); // outputs on pin 13 to turn off LED
   pinMode(ONpin, OUTPUT);
-  digitalWrite(LEDpin,LOW); // outputs on pin 13 to turn off LED
   digitalWrite(ONpin,LOW); // outputs on pin 14 to keep the raspberry pi off
 
   delay(5000); // delay for five seconds before turning on Raspberry Pi
@@ -53,9 +53,10 @@ void setup(void) {
 }
 
 void loop(void) {
+  delay(1);
   int packetSize = Udp.parsePacket(); // Keep Parsing for packets
-  //Serial.printf("%d",packetSize);
-  
+  //Serial.printf("%d\n",packetSize);
+
   // if packetSize > 0 (which means there is something received)
   if (packetSize) {
     Serial.printf("Received packets from %s", Udp.remoteIP().toString().c_str());
@@ -65,11 +66,16 @@ void loop(void) {
       incomingPacket[len] = 0; // set the character after the end of the message to 0
     };
     Serial.printf("UDP packet contents: %s\n", incomingPacket); // print the contents of the package
+
+    //digitalWrite(LEDpin,LOW);
+
     if(digitalRead(LEDpin) == LOW) {
       digitalWrite(LEDpin,HIGH); // outputs on pin 13 to turn on LED
       digitalWrite(ONpin,HIGH);
     } else {
       digitalWrite(LEDpin,LOW);
-    };
+    }
+    delay(3000);
+
   };
 }

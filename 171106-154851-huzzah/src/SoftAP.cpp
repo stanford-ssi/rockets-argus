@@ -13,7 +13,8 @@ unsigned int localUdpPort = 4210;
 char replyPacket[] = "0 Message Sent";
 
 IPAddress localIP(192,168,4,1);
-IPAddress stationIP(192,168,1,22);
+//IPAddress stationIP(192,168,1,22);
+IPAddress stationIP(0,0,0,0);
 IPAddress gateway(192,168,1,9);
 IPAddress subnet(255,255,255,0);
 
@@ -28,7 +29,7 @@ void setup(void) {
   Serial.printf("Making Soft Access Point with ssid: %s\n", ssid);
   bool check1, check2 = false; //bool if connected
 
-  while(!check1 && !check2) {
+  while(!check1 || !check2) {
     check2 = WiFi.softAPConfig(localIP, gateway, subnet);
     check1 = WiFi.softAP(ssid, password); //make access point until you've made one
 
@@ -47,7 +48,7 @@ void setup(void) {
 void loop() {
   // checks to see which stations are connected and prints them
   Serial.printf("Stations connected = %d\n", WiFi.softAPgetStationNum());
-  delay(3000);
+  delay(5000);
 
   //int packetSize = Udp.parsePacket();
 
