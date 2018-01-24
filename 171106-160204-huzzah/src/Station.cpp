@@ -28,8 +28,6 @@ void setup(void) {
   digitalWrite(ONpin,LOW); // outputs on pin 14 to keep the raspberry pi off
 
   delay(5000); // delay for five seconds before turning on Raspberry Pi
-  Serial.printf("Turning on Raspberry Pi\n\n");
-  digitalWrite(ONpin,HIGH); // Turn on pin to turn on Raspberry Pi
 
   Serial.printf("Connecting to %s\n", ssid);
   WiFi.begin(ssid, password); //connect to access point (Wifi)
@@ -37,6 +35,7 @@ void setup(void) {
   while (WiFi.status() != WL_CONNECTED) // while not connected to wifi
   {
     delay(500);
+    WiFi.begin(ssid, password); // try connecting again
     Serial.print("."); // keep printing dots
   };
 
@@ -68,6 +67,8 @@ void loop(void) {
     Serial.printf("UDP packet contents: %s\n", incomingPacket); // print the contents of the package
 
     //digitalWrite(LEDpin,LOW);
+    Serial.printf("Turning on Raspberry Pi\n\n");
+    digitalWrite(ONpin,HIGH); // Turn on pin to turn on Raspberry Pi
 
     if(digitalRead(LEDpin) == LOW) {
       digitalWrite(LEDpin,HIGH); // outputs on pin 13 to turn on LED
