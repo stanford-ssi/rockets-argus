@@ -27,15 +27,12 @@ void setup(void) {
   pinMode(ONpin, OUTPUT);
   digitalWrite(ONpin,LOW); // outputs on pin 14 to keep the raspberry pi off
 
-  delay(5000); // delay for five seconds before turning on Raspberry Pi
-
   Serial.printf("Connecting to %s\n", ssid);
   WiFi.begin(ssid, password); //connect to access point (Wifi)
 
   while (WiFi.status() != WL_CONNECTED) // while not connected to wifi
   {
     delay(500);
-    WiFi.begin(ssid, password); // try connecting again
     Serial.print("."); // keep printing dots
   };
 
